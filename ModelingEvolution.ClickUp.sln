@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{64AF78C6-13FA-461C-844F-4F498EF33649}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModelingEvolution.ClickUp", "src\ModelingEvolution.ClickUp\ModelingEvolution.ClickUp.csproj", "{CE20162C-D594-49CA-8386-6A5DFAFE8ACE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{BD1D12D1-0EF5-47C5-8C00-530A25EBFD31}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModelingEvolution.ClickUp.Tests", "tests\ModelingEvolution.ClickUp.Tests\ModelingEvolution.ClickUp.Tests.csproj", "{970A0725-BBC6-4025-A94F-BDB229A68AF3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CE20162C-D594-49CA-8386-6A5DFAFE8ACE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE20162C-D594-49CA-8386-6A5DFAFE8ACE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE20162C-D594-49CA-8386-6A5DFAFE8ACE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE20162C-D594-49CA-8386-6A5DFAFE8ACE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{970A0725-BBC6-4025-A94F-BDB229A68AF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{970A0725-BBC6-4025-A94F-BDB229A68AF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{970A0725-BBC6-4025-A94F-BDB229A68AF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{970A0725-BBC6-4025-A94F-BDB229A68AF3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{CE20162C-D594-49CA-8386-6A5DFAFE8ACE} = {64AF78C6-13FA-461C-844F-4F498EF33649}
+		{970A0725-BBC6-4025-A94F-BDB229A68AF3} = {BD1D12D1-0EF5-47C5-8C00-530A25EBFD31}
+	EndGlobalSection
+EndGlobal
