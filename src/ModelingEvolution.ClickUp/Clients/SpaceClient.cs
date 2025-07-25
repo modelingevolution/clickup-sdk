@@ -41,4 +41,48 @@ public class SpaceClient : ISpaceClient
         _logger.LogInformation("Retrieved space: {SpaceName}", space.Name);
         return space;
     }
+    
+    public async Task<Space> CreateSpaceAsync(string workspaceId, CreateSpaceRequest request, CancellationToken cancellationToken = default)
+    {
+        if (string.IsNullOrWhiteSpace(workspaceId))
+            throw new ArgumentException("Workspace ID cannot be null or empty", nameof(workspaceId));
+        
+        if (request == null)
+            throw new ArgumentNullException(nameof(request));
+        
+        _logger.LogInformation("Creating space '{SpaceName}' in workspace {WorkspaceId}", request.Name, workspaceId);
+        
+        var space = await _httpClient.PostAsync<Space>($"team/{workspaceId}/space", request, cancellationToken);
+        
+        _logger.LogInformation("Created space: {SpaceName} (ID: {SpaceId})", space.Name, space.Id);
+        return space;
+    }
+    
+    public async Task<Space> UpdateSpaceAsync(string spaceId, UpdateSpaceRequest request, CancellationToken cancellationToken = default)
+    {
+        if (string.IsNullOrWhiteSpace(spaceId))
+            throw new ArgumentException("Space ID cannot be null or empty", nameof(spaceId));
+        
+        if (request == null)
+            throw new ArgumentNullException(nameof(request));
+        
+        _logger.LogInformation("Updating space {SpaceId}", spaceId);
+        
+        var space = await _httpClient.PutAsync<Space>($"space/{spaceId}", request, cancellationToken);
+        
+        _logger.LogInformation("Updated space: {SpaceName}", space.Name);
+        return space;
+    }
+    
+    public async Task DeleteSpaceAsync(string spaceId, CancellationToken cancellationToken = default)
+    {
+        if (string.IsNullOrWhiteSpace(spaceId))
+            throw new ArgumentException("Space ID cannot be null or empty", nameof(spaceId));
+        
+        _logger.LogInformation("Deleting space {SpaceId}", spaceId);
+        
+        await _httpClient.DeleteAsync($"space/{spaceId}", cancellationToken);
+        
+        _logger.LogInformation("Deleted space {SpaceId}", spaceId);
+    }
 }

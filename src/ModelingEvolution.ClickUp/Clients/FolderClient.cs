@@ -41,4 +41,48 @@ public class FolderClient : IFolderClient
         _logger.LogInformation("Retrieved folder: {FolderName}", folder.Name);
         return folder;
     }
+    
+    public async Task<Folder> CreateFolderAsync(string spaceId, CreateFolderRequest request, CancellationToken cancellationToken = default)
+    {
+        if (string.IsNullOrWhiteSpace(spaceId))
+            throw new ArgumentException("Space ID cannot be null or empty", nameof(spaceId));
+        
+        if (request == null)
+            throw new ArgumentNullException(nameof(request));
+        
+        _logger.LogInformation("Creating folder '{FolderName}' in space {SpaceId}", request.Name, spaceId);
+        
+        var folder = await _httpClient.PostAsync<Folder>($"space/{spaceId}/folder", request, cancellationToken);
+        
+        _logger.LogInformation("Created folder: {FolderName} (ID: {FolderId})", folder.Name, folder.Id);
+        return folder;
+    }
+    
+    public async Task<Folder> UpdateFolderAsync(string folderId, UpdateFolderRequest request, CancellationToken cancellationToken = default)
+    {
+        if (string.IsNullOrWhiteSpace(folderId))
+            throw new ArgumentException("Folder ID cannot be null or empty", nameof(folderId));
+        
+        if (request == null)
+            throw new ArgumentNullException(nameof(request));
+        
+        _logger.LogInformation("Updating folder {FolderId}", folderId);
+        
+        var folder = await _httpClient.PutAsync<Folder>($"folder/{folderId}", request, cancellationToken);
+        
+        _logger.LogInformation("Updated folder: {FolderName}", folder.Name);
+        return folder;
+    }
+    
+    public async Task DeleteFolderAsync(string folderId, CancellationToken cancellationToken = default)
+    {
+        if (string.IsNullOrWhiteSpace(folderId))
+            throw new ArgumentException("Folder ID cannot be null or empty", nameof(folderId));
+        
+        _logger.LogInformation("Deleting folder {FolderId}", folderId);
+        
+        await _httpClient.DeleteAsync($"folder/{folderId}", cancellationToken);
+        
+        _logger.LogInformation("Deleted folder {FolderId}", folderId);
+    }
 }

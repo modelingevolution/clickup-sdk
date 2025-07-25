@@ -7,4 +7,5 @@ public interface IClickUpClient
     IFolderClient Folders { get; }
     IListClient Lists { get; }
     ITaskClient Tasks { get; }
+    ICustomFieldClient CustomFields { get; }
 }

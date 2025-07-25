@@ -54,4 +54,64 @@ public class ListClient : IListClient
         _logger.LogInformation("Retrieved list: {ListName}", list.Name);
         return list;
     }
+    
+    public async Task<List> CreateListInFolderAsync(string folderId, CreateListRequest request, CancellationToken cancellationToken = default)
+    {
+        if (string.IsNullOrWhiteSpace(folderId))
+            throw new ArgumentException("Folder ID cannot be null or empty", nameof(folderId));
+        
+        if (request == null)
+            throw new ArgumentNullException(nameof(request));
+        
+        _logger.LogInformation("Creating list '{ListName}' in folder {FolderId}", request.Name, folderId);
+        
+        var list = await _httpClient.PostAsync<List>($"folder/{folderId}/list", request, cancellationToken);
+        
+        _logger.LogInformation("Created list: {ListName} (ID: {ListId})", list.Name, list.Id);
+        return list;
+    }
+    
+    public async Task<List> CreateListInSpaceAsync(string spaceId, CreateListRequest request, CancellationToken cancellationToken = default)
+    {
+        if (string.IsNullOrWhiteSpace(spaceId))
+            throw new ArgumentException("Space ID cannot be null or empty", nameof(spaceId));
+        
+        if (request == null)
+            throw new ArgumentNullException(nameof(request));
+        
+        _logger.LogInformation("Creating list '{ListName}' in space {SpaceId}", request.Name, spaceId);
+        
+        var list = await _httpClient.PostAsync<List>($"space/{spaceId}/list", request, cancellationToken);
+        
+        _logger.LogInformation("Created list: {ListName} (ID: {ListId})", list.Name, list.Id);
+        return list;
+    }
+    
+    public async Task<List> UpdateListAsync(string listId, UpdateListRequest request, CancellationToken cancellationToken = default)
+    {
+        if (string.IsNullOrWhiteSpace(listId))
+            throw new ArgumentException("List ID cannot be null or empty", nameof(listId));
+        
+        if (request == null)
+            throw new ArgumentNullException(nameof(request));
+        
+        _logger.LogInformation("Updating list {ListId}", listId);
+        
+        var list = await _httpClient.PutAsync<List>($"list/{listId}", request, cancellationToken);
+        
+        _logger.LogInformation("Updated list: {ListName}", list.Name);
+        return list;
+    }
+    
+    public async Task DeleteListAsync(string listId, CancellationToken cancellationToken = default)
+    {
+        if (string.IsNullOrWhiteSpace(listId))
+            throw new ArgumentException("List ID cannot be null or empty", nameof(listId));
+        
+        _logger.LogInformation("Deleting list {ListId}", listId);
+        
+        await _httpClient.DeleteAsync($"list/{listId}", cancellationToken);
+        
+        _logger.LogInformation("Deleted list {ListId}", listId);
+    }
 }

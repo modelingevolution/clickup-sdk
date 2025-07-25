@@ -49,4 +49,67 @@ public class ClickUpHttpClient
         var result = JsonSerializer.Deserialize<T>(responseContent, _jsonOptions);
         return result ?? throw new InvalidOperationException($"Failed to deserialize response to {typeof(T).Name}");
     }
+    
+    public async Task<T> PostAsync<T>(string endpoint, object request, CancellationToken cancellationToken = default)
+    {
+        var json = JsonSerializer.Serialize(request, _jsonOptions);
+        var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+        
+        _logger.LogInformation("POST {Endpoint} with body: {Body}", endpoint, json);
+        
+        var response = await _httpClient.PostAsync(endpoint, content, cancellationToken);
+        
+        if (!response.IsSuccessStatusCode)
+        {
+            var errorContent = await response.Content.ReadAsStringAsync(cancellationToken);
+            _logger.LogError("Request failed with status {StatusCode}: {Content}", response.StatusCode, errorContent);
+        }
+        
+        response.EnsureSuccessStatusCode();
+        
+        var responseContent = await response.Content.ReadAsStringAsync(cancellationToken);
+        _logger.LogTrace("Response: {Content}", responseContent);
+        
+        var result = JsonSerializer.Deserialize<T>(responseContent, _jsonOptions);
+        return result ?? throw new InvalidOperationException($"Failed to deserialize response to {typeof(T).Name}");
+    }
+    
+    public async Task<T> PutAsync<T>(string endpoint, object request, CancellationToken cancellationToken = default)
+    {
+        var json = JsonSerializer.Serialize(request, _jsonOptions);
+        var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+        
+        _logger.LogInformation("PUT {Endpoint} with body: {Body}", endpoint, json);
+        
+        var response = await _httpClient.PutAsync(endpoint, content, cancellationToken);
+        
+        if (!response.IsSuccessStatusCode)
+        {
+            var errorContent = await response.Content.ReadAsStringAsync(cancellationToken);
+            _logger.LogError("Request failed with status {StatusCode}: {Content}", response.StatusCode, errorContent);
+        }
+        
+        response.EnsureSuccessStatusCode();
+        
+        var responseContent = await response.Content.ReadAsStringAsync(cancellationToken);
+        _logger.LogTrace("Response: {Content}", responseContent);
+        
+        var result = JsonSerializer.Deserialize<T>(responseContent, _jsonOptions);
+        return result ?? throw new InvalidOperationException($"Failed to deserialize response to {typeof(T).Name}");
+    }
+    
+    public async Task DeleteAsync(string endpoint, CancellationToken cancellationToken = default)
+    {
+        _logger.LogInformation("DELETE {Endpoint}", endpoint);
+        
+        var response = await _httpClient.DeleteAsync(endpoint, cancellationToken);
+        
+        if (!response.IsSuccessStatusCode)
+        {
+            var errorContent = await response.Content.ReadAsStringAsync(cancellationToken);
+            _logger.LogError("Request failed with status {StatusCode}: {Content}", response.StatusCode, errorContent);
+        }
+        
+        response.EnsureSuccessStatusCode();
+    }
 }

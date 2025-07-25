@@ -41,4 +41,48 @@ public class TaskClient : ITaskClient
         _logger.LogInformation("Retrieved task: {TaskName}", task.Name);
         return task;
     }
+    
+    public async Task<TaskItem> CreateTaskAsync(string listId, CreateTaskRequest request, CancellationToken cancellationToken = default)
+    {
+        if (string.IsNullOrWhiteSpace(listId))
+            throw new ArgumentException("List ID cannot be null or empty", nameof(listId));
+        
+        if (request == null)
+            throw new ArgumentNullException(nameof(request));
+        
+        _logger.LogInformation("Creating task '{TaskName}' in list {ListId}", request.Name, listId);
+        
+        var task = await _httpClient.PostAsync<TaskItem>($"list/{listId}/task", request, cancellationToken);
+        
+        _logger.LogInformation("Created task: {TaskName} (ID: {TaskId})", task.Name, task.Id);
+        return task;
+    }
+    
+    public async Task<TaskItem> UpdateTaskAsync(string taskId, UpdateTaskRequest request, CancellationToken cancellationToken = default)
+    {
+        if (string.IsNullOrWhiteSpace(taskId))
+            throw new ArgumentException("Task ID cannot be null or empty", nameof(taskId));
+        
+        if (request == null)
+            throw new ArgumentNullException(nameof(request));
+        
+        _logger.LogInformation("Updating task {TaskId}", taskId);
+        
+        var task = await _httpClient.PutAsync<TaskItem>($"task/{taskId}", request, cancellationToken);
+        
+        _logger.LogInformation("Updated task: {TaskName}", task.Name);
+        return task;
+    }
+    
+    public async Task DeleteTaskAsync(string taskId, CancellationToken cancellationToken = default)
+    {
+        if (string.IsNullOrWhiteSpace(taskId))
+            throw new ArgumentException("Task ID cannot be null or empty", nameof(taskId));
+        
+        _logger.LogInformation("Deleting task {TaskId}", taskId);
+        
+        await _httpClient.DeleteAsync($"task/{taskId}", cancellationToken);
+        
+        _logger.LogInformation("Deleted task {TaskId}", taskId);
+    }
 }

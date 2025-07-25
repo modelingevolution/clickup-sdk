@@ -13,6 +13,7 @@ public class ClickUpClient : IClickUpClient
     public IFolderClient Folders { get; }
     public IListClient Lists { get; }
     public ITaskClient Tasks { get; }
+    public ICustomFieldClient CustomFields { get; }
 
     public ClickUpClient(
         HttpClient httpClient,
@@ -33,5 +34,6 @@ public class ClickUpClient : IClickUpClient
         Folders = new FolderClient(clickUpHttpClient, loggerFactory.CreateLogger<FolderClient>());
         Lists = new ListClient(clickUpHttpClient, loggerFactory.CreateLogger<ListClient>());
         Tasks = new TaskClient(clickUpHttpClient, loggerFactory.CreateLogger<TaskClient>());
+        CustomFields = new CustomFieldClient(clickUpHttpClient, loggerFactory.CreateLogger<CustomFieldClient>());
     }
 }
