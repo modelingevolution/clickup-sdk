@@ -23,7 +23,7 @@ public class FolderClient : IFolderClient
         
         _logger.LogInformation("Getting folders for space {SpaceId}", spaceId);
         
-        var response = await _httpClient.GetAsync<FoldersResponse>($"/space/{spaceId}/folder", cancellationToken);
+        var response = await _httpClient.GetAsync<FoldersResponse>($"space/{spaceId}/folder", cancellationToken);
         
         _logger.LogInformation("Retrieved {Count} folders", response.Folders.Count);
         return response.Folders;
@@ -36,7 +36,7 @@ public class FolderClient : IFolderClient
         
         _logger.LogInformation("Getting folder {FolderId}", folderId);
         
-        var folder = await _httpClient.GetAsync<Folder>($"/folder/{folderId}", cancellationToken);
+        var folder = await _httpClient.GetAsync<Folder>($"folder/{folderId}", cancellationToken);
         
         _logger.LogInformation("Retrieved folder: {FolderName}", folder.Name);
         return folder;

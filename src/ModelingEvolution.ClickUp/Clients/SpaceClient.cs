@@ -23,7 +23,7 @@ public class SpaceClient : ISpaceClient
         
         _logger.LogInformation("Getting spaces for workspace {WorkspaceId}", workspaceId);
         
-        var response = await _httpClient.GetAsync<SpacesResponse>($"/team/{workspaceId}/space", cancellationToken);
+        var response = await _httpClient.GetAsync<SpacesResponse>($"team/{workspaceId}/space", cancellationToken);
         
         _logger.LogInformation("Retrieved {Count} spaces", response.Spaces.Count);
         return response.Spaces;
@@ -36,7 +36,7 @@ public class SpaceClient : ISpaceClient
         
         _logger.LogInformation("Getting space {SpaceId}", spaceId);
         
-        var space = await _httpClient.GetAsync<Space>($"/space/{spaceId}", cancellationToken);
+        var space = await _httpClient.GetAsync<Space>($"space/{spaceId}", cancellationToken);
         
         _logger.LogInformation("Retrieved space: {SpaceName}", space.Name);
         return space;

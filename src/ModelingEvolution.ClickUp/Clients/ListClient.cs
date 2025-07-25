@@ -23,7 +23,7 @@ public class ListClient : IListClient
         
         _logger.LogInformation("Getting lists for folder {FolderId}", folderId);
         
-        var response = await _httpClient.GetAsync<ListsResponse>($"/folder/{folderId}/list", cancellationToken);
+        var response = await _httpClient.GetAsync<ListsResponse>($"folder/{folderId}/list", cancellationToken);
         
         _logger.LogInformation("Retrieved {Count} lists", response.Lists.Count);
         return response.Lists;
@@ -36,7 +36,7 @@ public class ListClient : IListClient
         
         _logger.LogInformation("Getting folderless lists for space {SpaceId}", spaceId);
         
-        var response = await _httpClient.GetAsync<ListsResponse>($"/space/{spaceId}/list", cancellationToken);
+        var response = await _httpClient.GetAsync<ListsResponse>($"space/{spaceId}/list", cancellationToken);
         
         _logger.LogInformation("Retrieved {Count} folderless lists", response.Lists.Count);
         return response.Lists;
@@ -49,7 +49,7 @@ public class ListClient : IListClient
         
         _logger.LogInformation("Getting list {ListId}", listId);
         
-        var list = await _httpClient.GetAsync<List>($"/list/{listId}", cancellationToken);
+        var list = await _httpClient.GetAsync<List>($"list/{listId}", cancellationToken);
         
         _logger.LogInformation("Retrieved list: {ListName}", list.Name);
         return list;

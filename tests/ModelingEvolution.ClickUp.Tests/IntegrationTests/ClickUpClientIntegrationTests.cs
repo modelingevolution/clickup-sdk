@@ -2,6 +2,8 @@ using FluentAssertions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using ModelingEvolution.ClickUp;
+using Xunit.Abstractions;
+using Xunit.Extensions.Logging;
 
 namespace ModelingEvolution.ClickUp.Tests.IntegrationTests;
 
@@ -14,9 +16,11 @@ public class ClickUpClientIntegrationTests
 {
     private readonly string? _apiToken;
     private readonly ILoggerFactory _loggerFactory;
+    private readonly ITestOutputHelper _output;
 
-    public ClickUpClientIntegrationTests()
+    public ClickUpClientIntegrationTests(ITestOutputHelper output)
     {
+        _output = output;
         var configuration = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
             .AddJsonFile("appsettings.json", optional: true)
@@ -25,7 +29,7 @@ public class ClickUpClientIntegrationTests
         _apiToken = configuration["ClickUpToken"];
         _loggerFactory = LoggerFactory.Create(builder => 
         {
-            builder.AddConsole();
+            builder.AddXunit(_output);
             builder.SetMinimumLevel(LogLevel.Debug);
         });
     }

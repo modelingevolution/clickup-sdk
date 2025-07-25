@@ -23,7 +23,7 @@ public class TaskClient : ITaskClient
         
         _logger.LogInformation("Getting tasks for list {ListId}, page {Page}", listId, page);
         
-        var response = await _httpClient.GetAsync<TasksResponse>($"/list/{listId}/task?page={page}", cancellationToken);
+        var response = await _httpClient.GetAsync<TasksResponse>($"list/{listId}/task?page={page}", cancellationToken);
         
         _logger.LogInformation("Retrieved {Count} tasks", response.Tasks.Count);
         return response;
@@ -36,7 +36,7 @@ public class TaskClient : ITaskClient
         
         _logger.LogInformation("Getting task {TaskId}", taskId);
         
-        var task = await _httpClient.GetAsync<TaskItem>($"/task/{taskId}", cancellationToken);
+        var task = await _httpClient.GetAsync<TaskItem>($"task/{taskId}", cancellationToken);
         
         _logger.LogInformation("Retrieved task: {TaskName}", task.Name);
         return task;
