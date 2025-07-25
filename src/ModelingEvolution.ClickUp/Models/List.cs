@@ -44,7 +44,7 @@ public record List
     public bool Archived { get; init; }
     
     [JsonPropertyName("override_statuses")]
-    public bool OverrideStatuses { get; init; }
+    public bool? OverrideStatuses { get; init; }
     
     [JsonPropertyName("permission_level")]
     public string? PermissionLevel { get; init; }
